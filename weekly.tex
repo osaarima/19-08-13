@@ -100,8 +100,8 @@
     \begin{columns}
         \column{.70\textwidth}
         \begin{itemize}
-            \item Because of the initial pressure gradients and fluctuations, the particle azimuthal distribution is not isotropic.
-            \item This is why it is customary to expand it in a Fourier series:
+            \item The particle azimuthal distribution is not isotropic.
+            \item It is customary to expand it in a Fourier series:
             \begin{equation} \small\nonumber
                 E\frac{\dd^3N}{\dd^3p} \propto 1+\sum^\infty_{n=1}2v_n\cos\left(n\left(\phi-\Psi_\mathrm{RP}\right)\right)
             \end{equation}
@@ -125,34 +125,20 @@
         \begin{itemize}
             \item Problem: $\Psi_\mathrm{RP}$ is unknown when using real data.
             \item Define the event flow vector $\mathbf{Q_n} \in \mathbb{C}$:
-            \begin{align} \small
-                Q_{n,x} &= \sum_{i\in \mathrm{particles}} w_i\cos\left(n\phi_i\right) = \abs{\mathbf{Q_n}}\cos\left(n\Psi_n\right) \nonumber\\
-                Q_{n,y} &= \sum_{i\in \mathrm{particles}} w_i\sin\left(n\phi_i\right) \hspace{0.19em}= \abs{\mathbf{Q_n}}\sin\left(n\Psi_n\right), \nonumber
-            \end{align}
+            \begin{equation} \small
+                \mathbf{Q}_n = w_i e^{in\Psi_n}
+            \end{equation}
             where $w_i$ are the weights and optimally $w_i\approx v_n\left(\pt,y\right)\propto\pt$, with small \pt. Many times it is set $w_i=1$ for all $i$.
         \end{itemize}
-        \column{.30\textwidth}
-        \begin{figure}[htbp]
-            \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
-            \caption{From arXiv:0809.2949v2}
-        \end{figure}
-    \end{columns}
-}
-
-\frame {
-    \frametitle{Event plane}
-    \begin{columns}
-        \column{.70\textwidth}
-        \begin{itemize}
-            \item Now we have
             \begin{equation} \small
                 \Psi_n = \frac{1}{n}\arctan\left(\frac{Q_{n,y}}{Q_{n,x}}\right) \nonumber
             \end{equation}
+        \begin{itemize}
+            \item Now we have
             and now the observed $v_n$ can be calculated using
                 \begin{equation}
                 v_n^\mathrm{obs} = \left\langle\cos\left[n\left(\phi_i-\Psi_n\right)\right]\right\rangle \nonumber
             \end{equation}
-            \item Autocorrelations need to be removed when using this equation.
         \end{itemize}
         \column{.30\textwidth}
         \begin{figure}[htbp]
@@ -166,12 +152,7 @@
     \frametitle{Event plane}
     \begin{columns}
         \column{.70\textwidth}
-        \begin{itemize}
-            \item It is easily shown that there is a relation
-            \begin{equation} \small
-                v_n^\mathrm{obs} = v_n\cos\left[n\left(\Psi_n-\Psi_\mathrm{RP}\right)\right]. \nonumber
-            \end{equation}
-            To help, a resolution parameter is defined as
+            A resolution parameter is defined
             \begin{equation}
                 R_{n,true} = \left\langle\cos\left[n\left(\Psi_n-\Psi_\mathrm{RP}\right)\right]\right\rangle, \nonumber
             \end{equation}
@@ -179,8 +160,7 @@
             \begin{equation}
                 v_n = \frac{v_n^\mathrm{obs}}{R_{n,true}}. \nonumber
             \end{equation}
-            The above definition of $R_n$ can only be used with simulations as the $\Psi_\mathrm{RP}$ is unknown.
-        \end{itemize}
+            The above definition of $R_n$ can only be used with simulations as the $\Psi_\mathrm{RP}$ is unknown, but it can also be evaluated without the information of reaction plane by using subevents A and B.
         \column{.30\textwidth}
         \begin{figure}[htbp]
             \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
@@ -188,6 +168,81 @@
         \end{figure}
     \end{columns}
 }
+
+
+\frame {
+    \frametitle{How the event is formed}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item validating
+        \end{itemize}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{Validating}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{FIT-vn-ideal.pdf}
+            \caption{}
+        \end{figure}
+}
+
+\frame {
+    \frametitle{Validating (if needed)}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{FIT-Rn-ideal.pdf}
+            \caption{}
+        \end{figure}
+}
+
+\frame {
+    \frametitle{FIT V0+}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item Ideal vs. gran
+            \item Compare to Maciej
+        \end{itemize}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{TODO}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item TODO:
+            \begin{itemize}
+                \item Subevent handling
+                \begin{itemize}
+                    \item In FIT?
+                \end{itemize}
+                \item Realistic geometry.
+            \end{itemize}
+            \item In the future:
+            \begin{itemize}
+                \item Realistic simulation of FIT.
+            \end{itemize}
+        \end{itemize}
+    \end{columns}
+}
+
+\frame{
+    %\thispagestyle{empty}
+    \frametitle{The end}
+    \centering
+    \vfill
+    {\LARGE Thank you for listening}
+    \vspace{3em}
+
+    Questions?
+    \vspace{9em}
+
+    %{\small Next some extra pages}
+} 
+
+\appendix
 
 \frame {
     \frametitle{Event plane}
@@ -269,80 +324,6 @@
 }
 
 \frame {
-    \frametitle{How the event is formed}
-    \begin{columns}
-        \column{1.0\textwidth}
-        \begin{itemize}
-            \item validating
-        \end{itemize}
-    \end{columns}
-}
-
-\frame {
-    \frametitle{Validating}
-        \begin{figure}[htbp]
-            \includegraphics[width=0.95\textwidth]{FIT-vn-ideal.pdf}
-            \caption{}
-        \end{figure}
-}
-
-\frame {
-    \frametitle{Validating (if needed)}
-        \begin{figure}[htbp]
-            \includegraphics[width=0.95\textwidth]{FIT-Rn-ideal.pdf}
-            \caption{}
-        \end{figure}
-}
-
-\frame {
-    \frametitle{FIT V0+}
-    \begin{columns}
-        \column{1.0\textwidth}
-        \begin{itemize}
-            \item Ideal vs. gran
-            \item Compare to Maciej
-        \end{itemize}
-    \end{columns}
-}
-
-\frame {
-    \frametitle{TODO}
-    \begin{columns}
-        \column{1.0\textwidth}
-        \begin{itemize}
-            \item TODO:
-            \begin{itemize}
-                \item Subevent handling
-                \begin{itemize}
-                    \item In FIT?
-                \end{itemize}
-                \item Realistic geometry.
-            \end{itemize}
-            \item In the future:
-            \begin{itemize}
-                \item Realistic simulation of FIT.
-            \end{itemize}
-        \end{itemize}
-    \end{columns}
-}
-
-\frame{
-    %\thispagestyle{empty}
-    \frametitle{The end}
-    \centering
-    \vfill
-    {\LARGE Thank you for listening}
-    \vspace{3em}
-
-    Questions?
-    \vspace{9em}
-
-    %{\small Next some extra pages}
-} 
-
-\appendix
-
-\frame {
     \frametitle{Event Plane (Scalar Product) method}
         \begin{itemize}
             \item Another way to calculate $v_n$:
@@ -354,6 +335,7 @@
             \begin{equation}
                 \left\langle \frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} \frac{\mathbf{Q_{n,B}}^*}{\abs{\mathbf{Q_{n,B}}}}\right\rangle = \left\langle\frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} e^{-in\Psi_n}\right\rangle \left\langle\frac{\mathbf{Q_{n,B}}}{\abs{\mathbf{Q_{n,B}}}} e^{-in\Psi_n}\right\rangle^* = \abs{\left\langle\frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} e^{-in\Psi_n}\right\rangle}^2 = R_{n,\mathrm{A}}^2 \nonumber
             \end{equation}
+            \item The scalar product (SP) method uses the same equations but without the normalizations by the $Q$ vector length.
         \end{itemize}
 }
 
