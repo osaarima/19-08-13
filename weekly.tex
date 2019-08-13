@@ -15,9 +15,10 @@
 \definecolor{links}{HTML}{2A1B81}
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes}
-\setbeamertemplate{blocks}[rounded][shadow=true] 
-\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{navigation symbols}{}
 \include{defs}
+\include{hyperref}
 
 \graphicspath{{Figures/}}
 
@@ -46,11 +47,11 @@
             \includegraphics[width=0.21\textwidth]{logo_jyu}\hspace{3em}\includegraphics[height=1.6cm]{logo_alice.eps}\hspace{3em}
             \includegraphics[width=0.21\textwidth]{logo_hip}
             %PLHC 2012 - Physics at the LHC 2012, Vancouver June 4-9
-            
+
         \end{center}
     \end{figure}
 
-} 
+}
 
 \frame {
     \frametitle{Introductions}
@@ -156,7 +157,7 @@
             \begin{equation}
                 R_{n,true} = \left\langle\cos\left[n\left(\Psi_n-\Psi_\mathrm{RP}\right)\right]\right\rangle, \nonumber
             \end{equation}
-            so that 
+            so that
             \begin{equation}
                 v_n = \frac{v_n^\mathrm{obs}}{R_{n,true}}. \nonumber
             \end{equation}
@@ -169,14 +170,67 @@
     \end{columns}
 }
 
+\frame {
+    \frametitle{Toy Monte Carlo}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item Toy MC to study the resolution parameter and flow coefficients
+            \item Uses measured data for $v_{\text{n}}$ and multiplicity from \href{https://arxiv.org/abs/1804.02944}{arXiv:1804.02944} and \href{https://arxiv.org/abs/1509.07299}{arXiv:1509.07299}
+            \item Available at \url{https://github.com/hrytkone/ToyFlow}
+        \end{itemize}
+    \end{columns}
+}
 
 \frame {
     \frametitle{How the event is formed}
     \begin{columns}
-        \column{1.0\textwidth}
+        \column{.5\textwidth}
         \begin{itemize}
-            \item validating
+            \item Event multiplicity taken from data according to centrality
+            \item Then for each particle in the event
+            \begin{itemize}
+                \item $\phi$ is taken from the Fourier series
+                \item $\eta$ is taken from multiplicity distribution
+            \end{itemize}
         \end{itemize}
+        \column{.5\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{Figures/toyFlow_chart_3.pdf}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{How the event is formed}
+    \begin{columns}
+        \column{.5\textwidth}
+        \begin{itemize}
+            \item Particles in full event are divided into detector specific lists according to pseudorapidity
+            \begin{itemize}
+                \item Detectors are TPC, FT0-A, FT0-C and FV0
+            \end{itemize}
+            \item Particles are also divided into two sub events
+        \end{itemize}
+        \column{.5\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{Figures/toyFlow_chart_4.pdf}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{How the event is formed}
+    \begin{columns}
+        \column{.5\textwidth}
+        \begin{itemize}
+            \item Q-vectors are then calculated
+            \item Relevant information for retrieving the flow coefficients is saved to the histograms
+        \end{itemize}
+        \column{.5\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{Figures/toyFlow_chart_5.pdf}
+        \end{figure}
     \end{columns}
 }
 
