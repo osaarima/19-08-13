@@ -8,3 +8,6 @@
 *.fdb_latexmk
 *.fls
 *.synctex.gz
+weekly.pdf
+
+Figures/Persons/*
