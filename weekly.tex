@@ -1,0 +1,396 @@
+\documentclass[9,aspectratio=169]{beamer}
+
+%\usetheme[secheader]{Boadilla}
+\usetheme{CambridgeUS}
+%usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usepackage{comment}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{appendixnumberbeamer}
+\usepackage{verbatim}
+\usepackage{nicefrac}
+\definecolor{links}{HTML}{2A1B81}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+\setbeamertemplate{blocks}[rounded][shadow=true] 
+\setbeamertemplate{navigation symbols}{} 
+\include{defs}
+
+\graphicspath{{Figures/}}
+
+% Main page
+\title[ToyFlow]{\bf{ToyFlow MC tool for FIT}}
+%\subtitle{Correlation in ALICE at LHC}
+\vspace{\fill}
+\vspace{\fill}
+\author[Rytk\"onen, Saarim\"aki and R\"as\"anen]{{\bf Heidi Rytk\"onen, Oskari Saarim\"aki and Sami R\"as\"anen} }
+%{\small Dongjo Kim, Beomkyu Kim, Tomas Snellman, Sami R\"as\"anen}}
+%author{\makebox[.9\textwidth]{Lead Author}\\Dept\\ School \and Co-Author1\\Dept\\ School \and Co-Author2\\Dept\\ School \and Co-Author3\\Dept\\ School}
+\institute[JYFL/HIP]{University of Jyv\"askyl\"a \\
+\& Helsinki Institute of Physics}
+\date{}
+
+\begin{document}
+
+
+\frame[noframenumbering]{\titlepage
+    \thispagestyle{empty}
+    \begin{center}
+        \small \today
+    \end{center}
+    \begin{figure}[ht]
+        \begin{center}
+            \includegraphics[width=0.21\textwidth]{logo_jyu}\hspace{3em}\includegraphics[height=1.6cm]{logo_alice.eps}\hspace{3em}
+            \includegraphics[width=0.21\textwidth]{logo_hip}
+            %PLHC 2012 - Physics at the LHC 2012, Vancouver June 4-9
+            
+        \end{center}
+    \end{figure}
+
+} 
+
+\frame {
+    \frametitle{Introductions}
+    \begin{columns}
+        \column{.2\textwidth}
+        \column{.3\textwidth}
+        Heidi Rytkönen
+        \begin{itemize}
+            \item PhD. student
+        \end{itemize}
+        \column{.2\textwidth}
+        \column{.3\textwidth}
+        Jasper Parkkila
+        \begin{itemize}
+            \item PhD. student
+        \end{itemize}
+    \end{columns}
+    \vfill
+    \begin{columns}
+        \column{.2\textwidth}
+        \column{.3\textwidth}
+        Oskari Saarimäki
+        \begin{itemize}
+            \item PhD. student
+        \end{itemize}
+        \column{.2\textwidth}
+        \column{.3\textwidth}
+        Sami Räsänen
+        \begin{itemize}
+            \item Senior researcher
+        \end{itemize}
+    \end{columns}
+    \vfill
+    \begin{columns}
+        \column{.2\textwidth}
+        \column{.8\textwidth}
+        Dong Jo Kim
+        \begin{itemize}
+            \item Senior researcher
+        \end{itemize}
+    \end{columns}
+}
+
+
+\frame {
+    \frametitle{Motivation}
+    \begin{columns}
+        \column{.70\textwidth}
+        \begin{itemize}
+            \item Because of the initial pressure gradients and fluctuations, the particle azimuthal distribution is not isotropic.
+            \item This is why it is customary to expand it in a Fourier series:
+            \begin{equation} \small\nonumber
+                E\frac{\dd^3N}{\dd^3p} = \frac{1}{2\pi}\frac{\dd^2N}{\pt\dd\pt\dd y}\left(1+\sum^\infty_{n=1}2v_n\cos\left(n\left(\phi-\Psi_\mathrm{RP}\right)\right)\right)
+            \end{equation}
+            where
+            \begin{equation} \small\nonumber
+                v_n = \left\langle\cos\left[n\left(\phi_i-\Psi_\mathrm{RP}\right)\right]\right\rangle
+            \end{equation}
+            and angled brackets mean an average over all particles in all events.
+        \end{itemize}
+        \column{.30\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{toyFlow/flow2.jpg}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{Event plane}
+    \begin{columns}
+        \column{.70\textwidth}
+        \begin{itemize}
+            \item Problem: $\Psi_\mathrm{RP}$ is unknown when using real data.
+            \item Define the event flow vector $\mathbf{Q_n} \in \mathbb{C}$:
+            \begin{align} \small
+                Q_{n,x} &= \sum_{i\in \mathrm{particles}} w_i\cos\left(n\phi_i\right) = \abs{\mathbf{Q_n}}\cos\left(n\Psi_n\right) \nonumber\\
+                Q_{n,y} &= \sum_{i\in \mathrm{particles}} w_i\sin\left(n\phi_i\right) \hspace{0.19em}= \abs{\mathbf{Q_n}}\sin\left(n\Psi_n\right), \nonumber
+            \end{align}
+            where $w_i$ are the weights and optimally $w_i\approx v_n\left(\pt,y\right)\propto\pt$, with small \pt. Many times it is set $w_i=1$ for all $i$.
+        \end{itemize}
+        \column{.30\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
+            \caption{From arXiv:0809.2949v2}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{Event plane}
+    \begin{columns}
+        \column{.70\textwidth}
+        \begin{itemize}
+            \item Now we have
+            \begin{equation} \small
+                \Psi_n = \frac{1}{n}\arctan\left(\frac{Q_{n,y}}{Q_{n,x}}\right) \nonumber
+            \end{equation}
+            and now the observed $v_n$ can be calculated using
+                \begin{equation}
+                v_n^\mathrm{obs} = \left\langle\cos\left[n\left(\phi_i-\Psi_n\right)\right]\right\rangle \nonumber
+            \end{equation}
+            \item Autocorrelations need to be removed when using this equation.
+        \end{itemize}
+        \column{.30\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
+            \caption{From arXiv:0809.2949v2}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{Event plane}
+    \begin{columns}
+        \column{.70\textwidth}
+        \begin{itemize}
+            \item It is easily shown that there is a relation
+            \begin{equation} \small
+                v_n^\mathrm{obs} = v_n\cos\left[n\left(\Psi_n-\Psi_\mathrm{RP}\right)\right]. \nonumber
+            \end{equation}
+            To help, a resolution parameter is defined as
+            \begin{equation}
+                R_{n,true} = \left\langle\cos\left[n\left(\Psi_n-\Psi_\mathrm{RP}\right)\right]\right\rangle, \nonumber
+            \end{equation}
+            so that 
+            \begin{equation}
+                v_n = \frac{v_n^\mathrm{obs}}{R_{n,true}}. \nonumber
+            \end{equation}
+            The above definition of $R_n$ can only be used with simulations as the $\Psi_\mathrm{RP}$ is unknown.
+        \end{itemize}
+        \column{.30\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
+            \caption{From arXiv:0809.2949v2}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{Event plane}
+    \begin{columns}
+        \column{.70\textwidth}
+        \begin{itemize}
+            \item $R_n$ can also be written as
+            \begin{equation} \small
+                R_k \left(\chi\right)= \frac{\sqrt{\pi}}{2}\chi e^{-\frac{\chi^2}{2}} \left[I_\frac{k-1}{2}\left(\frac{\chi^2}{2}\right) + I_\frac{k+1}{2}\left(\frac{\chi^2}{2}\right)\right], \nonumber
+            \end{equation}
+            where $I$ is the modified Bessel function and
+            \begin{equation}
+                \chi = v_n\sqrt{M} \nonumber
+            \end{equation}
+            where $M$ is the multiplicity of the event. When comparing the same harmonic number correlation and event plane, $k=1$ always.
+        \end{itemize}
+        \column{.30\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
+            \caption{From arXiv:0809.2949v2}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{Event plane}
+    \begin{columns}
+        \column{.70\textwidth}
+        \begin{itemize}
+            \item By splitting the event into two equal size independent sub-events
+            \begin{equation} \small
+                R_{n,sub} = \sqrt{\left\langle\cos\left[n\left(\Psi_n^\mathrm{A}-\Psi_n^\mathrm{B}\right)\right]\right\rangle}, \nonumber
+            \end{equation}
+            and then $\chi_\mathrm{sub}$ can be solved iteratively from the previous page equation.
+            \item Because $\chi\propto\sqrt{M}$, the full event $\chi = \sqrt{2}\,\chi_\mathrm{sub}$, and so finally full event resolution
+            \begin{equation}
+                R_{n} = R_{k=1}\left(\chi\right) \nonumber
+            \end{equation}
+            and
+            \begin{equation}
+                v_n = \frac{v_n^\mathrm{obs}}{R_n} \nonumber
+            \end{equation}
+        \end{itemize}
+        \column{.30\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
+            \caption{From arXiv:0809.2949v2}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{Event plane}
+    \begin{columns}
+        \column{.70\textwidth}
+        \begin{itemize}
+            \item Summary table:
+                \begin{table}[tb]
+                    \centering
+                    \caption{Is possible to use.} \label{tab}
+                    \begin{tabular}{ccc}
+                        \hline
+                        & Simulation & Data \\ \hline
+                        $\Psi_\mathrm{RP}$ & x &  \\
+                        $\Psi_n$ & x & x \\
+                        $R_{n,true}$ & x &  \\
+                        $R_n$ & x & x \\
+                        \hline
+                    \end{tabular}
+                \end{table}
+            \item When using a simulation the methods can be validated by comparing to the true values of reaction plane and $R_{n,true}$.
+        \end{itemize}
+        \column{.30\textwidth}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
+            \caption{From arXiv:0809.2949v2}
+        \end{figure}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{How the event is formed}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item validating
+        \end{itemize}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{FIT V0+}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item Ideal vs. gran
+            \item Compare to Maciej
+        \end{itemize}
+    \end{columns}
+}
+
+\frame {
+    \frametitle{TODO}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item TODO:
+            \begin{itemize}
+                \item Subevent handling
+                \begin{itemize}
+                    \item In FIT?
+                \end{itemize}
+                \item Realistic geometry.
+            \end{itemize}
+            \item In the future:
+            \begin{itemize}
+                \item Realistic simulation of FIT.
+            \end{itemize}
+        \end{itemize}
+    \end{columns}
+}
+
+\frame{
+    %\thispagestyle{empty}
+    \frametitle{The end}
+    \centering
+    \vfill
+    {\LARGE Thank you for listening}
+    \vspace{3em}
+
+    Questions?
+    \vspace{9em}
+
+    %{\small Next some extra pages}
+} 
+
+\appendix
+
+\frame {
+    \frametitle{Event Plane method}
+        \begin{itemize}
+            \item Another way to calculate $v_n$:
+            \begin{equation}
+                \left\langle \mathbf{Q_n} \frac{\mathbf{Q_{n,A}}^*}{\abs{\mathbf{Q_{n,A}}}}\right\rangle = \left\langle \mathbf{Q_n} e^{-in\Psi_n}\right\rangle \left\langle\frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} e^{-in\Psi_n}\right\rangle^* = v_n R_{n,\mathrm{A}} \nonumber
+            \end{equation}
+            where the last equality is valid when $\mathbf{Q_n}$ and $\mathbf{Q_{n,A}}$ are uncorrelated, except for the common $\Psi_n$.
+            \item For two subevents with equal multiplicities
+            \begin{equation}
+                \left\langle \frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} \frac{\mathbf{Q_{n,B}}^*}{\abs{\mathbf{Q_{n,B}}}}\right\rangle = \left\langle\frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} e^{-in\Psi_n}\right\rangle \left\langle\frac{\mathbf{Q_{n,B}}}{\abs{\mathbf{Q_{n,B}}}} e^{-in\Psi_n}\right\rangle^* = \abs{\left\langle\frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} e^{-in\Psi_n}\right\rangle}^2 = R_{n,\mathrm{A}}^2 \nonumber
+            \end{equation}
+        \end{itemize}
+}
+
+\frame {
+    \frametitle{Event Plane method}
+        \begin{itemize}
+            \item Thus the $v_n$ can be calculated using event-plane method by
+            \begin{equation}
+                v_n\left\{ \mathrm{EP} \right\} = \left.\left\langle \mathbf{Q_n} \frac{\mathbf{Q_{n,A}}^*}{\abs{\mathbf{Q_{n,A}}}}\right\rangle \middle/ \sqrt{\left\langle \frac{\mathbf{Q_{n,A}}}{\abs{\mathbf{Q_{n,A}}}} \frac{\mathbf{Q_{n,B}}^*}{\abs{\mathbf{Q_{n,B}}}}\right\rangle}\right. . \nonumber
+            \end{equation}
+            \item This means that to calculate $v_n$, one does not necessarily need the event plane information explicitly. Only the flow vectors are necessary.
+            \item By comparing the $v_n$ from different methods, the validation is better.
+        \end{itemize}
+}
+
+
+\frame {
+    \frametitle{Corrections}
+        \begin{itemize}
+            \item For an imperfect detector system, there are some corrections done.
+            \item First an acceptance function $A(\phi)$ is determined so that
+            \begin{equation}
+                \int \frac{\dd\phi}{2\pi}A(\phi) = 1. \nonumber
+            \end{equation}
+            \item Then define
+            \begin{equation}
+                \bar{c}_n = \int \frac{\dd\phi}{2\pi}A(\phi)\cos(m\phi), \hspace{2em} \bar{s}_n = \int \frac{\dd\phi}{2\pi}A(\phi)\sin(m\phi) \nonumber
+            \end{equation}
+            \begin{equation}
+                a_{2n}^{\pm} = 1 \pm \bar{c}_{2n}
+            \end{equation}
+            \begin{equation}
+                \lambda_{2n}^{s\pm} = \frac{\bar{s}_{2n}}{a_{2n}^{\pm}} \nonumber
+            \end{equation}
+        \end{itemize}
+}
+
+\frame {
+    \frametitle{Corrections}
+        \begin{itemize}
+            \item Now the shift corrections is
+            \begin{equation}
+                Q_{n,x}' = Q_{n,x} - \bar{c}_n, \hspace{2em} Q_{n,y}' = Q_{n,y} - \bar{s}_n
+            \end{equation}
+            twist
+            \begin{equation}
+                Q_{n,x}'' = \frac{Q_{n,x}' - \lambda_{2n}^{s-}}{1 - \lambda_{2n}^{s-}\lambda_{2n}^{s+}}, \hspace{2em} Q_{n,y}'' = \frac{Q_{n,y}' - \lambda_{2n}^{s+}}{1 - \lambda_{2n}^{s-}\lambda_{2n}^{s+}}
+            \end{equation}
+            and rescaling
+            \begin{equation}
+                Q_{n,x}''' = \frac{Q_{n,x}''}{a_{2n}^{+}}, \hspace{2em} Q_{n,y}''' = \frac{Q_{n,y}''}{a_{2n}^{-}}.
+            \end{equation}
+        \end{itemize}
+}
+
+\end{document}
