@@ -103,7 +103,7 @@
             \item Because of the initial pressure gradients and fluctuations, the particle azimuthal distribution is not isotropic.
             \item This is why it is customary to expand it in a Fourier series:
             \begin{equation} \small\nonumber
-                E\frac{\dd^3N}{\dd^3p} = \frac{1}{2\pi}\frac{\dd^2N}{\pt\dd\pt\dd y}\left(1+\sum^\infty_{n=1}2v_n\cos\left(n\left(\phi-\Psi_\mathrm{RP}\right)\right)\right)
+                E\frac{\dd^3N}{\dd^3p} \propto 1+\sum^\infty_{n=1}2v_n\cos\left(n\left(\phi-\Psi_\mathrm{RP}\right)\right)
             \end{equation}
             where
             \begin{equation} \small\nonumber
@@ -279,6 +279,22 @@
 }
 
 \frame {
+    \frametitle{Validating}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{FIT-vn-ideal.pdf}
+            \caption{}
+        \end{figure}
+}
+
+\frame {
+    \frametitle{Validating (if needed)}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.95\textwidth]{FIT-Rn-ideal.pdf}
+            \caption{}
+        \end{figure}
+}
+
+\frame {
     \frametitle{FIT V0+}
     \begin{columns}
         \column{1.0\textwidth}
@@ -327,7 +343,7 @@
 \appendix
 
 \frame {
-    \frametitle{Event Plane method}
+    \frametitle{Event Plane (Scalar Product) method}
         \begin{itemize}
             \item Another way to calculate $v_n$:
             \begin{equation}
@@ -342,7 +358,7 @@
 }
 
 \frame {
-    \frametitle{Event Plane method}
+    \frametitle{Event Plane (Scalar Product) method}
         \begin{itemize}
             \item Thus the $v_n$ can be calculated using event-plane method by
             \begin{equation}
@@ -353,44 +369,5 @@
         \end{itemize}
 }
 
-
-\frame {
-    \frametitle{Corrections}
-        \begin{itemize}
-            \item For an imperfect detector system, there are some corrections done.
-            \item First an acceptance function $A(\phi)$ is determined so that
-            \begin{equation}
-                \int \frac{\dd\phi}{2\pi}A(\phi) = 1. \nonumber
-            \end{equation}
-            \item Then define
-            \begin{equation}
-                \bar{c}_n = \int \frac{\dd\phi}{2\pi}A(\phi)\cos(m\phi), \hspace{2em} \bar{s}_n = \int \frac{\dd\phi}{2\pi}A(\phi)\sin(m\phi) \nonumber
-            \end{equation}
-            \begin{equation}
-                a_{2n}^{\pm} = 1 \pm \bar{c}_{2n}
-            \end{equation}
-            \begin{equation}
-                \lambda_{2n}^{s\pm} = \frac{\bar{s}_{2n}}{a_{2n}^{\pm}} \nonumber
-            \end{equation}
-        \end{itemize}
-}
-
-\frame {
-    \frametitle{Corrections}
-        \begin{itemize}
-            \item Now the shift corrections is
-            \begin{equation}
-                Q_{n,x}' = Q_{n,x} - \bar{c}_n, \hspace{2em} Q_{n,y}' = Q_{n,y} - \bar{s}_n
-            \end{equation}
-            twist
-            \begin{equation}
-                Q_{n,x}'' = \frac{Q_{n,x}' - \lambda_{2n}^{s-}}{1 - \lambda_{2n}^{s-}\lambda_{2n}^{s+}}, \hspace{2em} Q_{n,y}'' = \frac{Q_{n,y}' - \lambda_{2n}^{s+}}{1 - \lambda_{2n}^{s-}\lambda_{2n}^{s+}}
-            \end{equation}
-            and rescaling
-            \begin{equation}
-                Q_{n,x}''' = \frac{Q_{n,x}''}{a_{2n}^{+}}, \hspace{2em} Q_{n,y}''' = \frac{Q_{n,y}''}{a_{2n}^{-}}.
-            \end{equation}
-        \end{itemize}
-}
 
 \end{document}
