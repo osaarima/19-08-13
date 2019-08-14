@@ -254,7 +254,7 @@
         \end{itemize}
         \column{.5\textwidth}
         \begin{figure}[htbp]
-            \includegraphics[width=0.95\textwidth]{Figures/toyFlow_chart_5.pdf}
+            \includegraphics[width=0.8\textwidth]{Figures/toyFlow_chart_5.pdf}
         \end{figure}
     \end{columns}
 }
@@ -265,46 +265,49 @@
             \begin{itemize}
                 \item In ideal situation the code produces the flow coefficients $v_2$ and $v_3$ well
             \end{itemize}
-            \includegraphics[width=0.85\textwidth]{FIT-vn-ideal.pdf}
-            \caption{}
+            \includegraphics[width=0.8\textwidth]{FIT-vn-ideal.pdf}
         \end{figure}
 }
 
-\frame {
-    \frametitle{Validating (if needed)}
-        \begin{figure}[htbp]
-            \includegraphics[width=0.95\textwidth]{FIT-Rn-ideal.pdf}
-            \caption{}
-        \end{figure}
-}
+%\frame {
+%    \frametitle{Validating (if needed)}
+%        \begin{figure}[htbp]
+%            \includegraphics[width=0.95\textwidth]{FIT-Rn-ideal.pdf}
+%            \caption{}
+%        \end{figure}
+%}
 
 \frame {
     \frametitle{Validating}
+        \begin{itemize}
+            \item Testing with different granularities
+        \end{itemize}
         \begin{figure}[htbp]
-            \includegraphics[width=0.95\textwidth]{FIT-vn-multiple.pdf}
-            \caption{}
+            \includegraphics[width=0.8\textwidth]{FIT-vn-multiple.pdf}
         \end{figure}
 }
 
 \frame {
-    \frametitle{Validating (if needed)}
+    \frametitle{Resolution parameter}
         \begin{figure}[htbp]
-            \includegraphics[width=0.95\textwidth]{FIT-Rn-multiple.pdf}
-            \caption{}
+            \includegraphics[width=0.8\textwidth]{FIT-Rn-multiple.pdf}
         \end{figure}
 }
 
 \frame {
     \frametitle{Simulations using FV0}
+    \begin{itemize}
+        \item Similar observations have been made before by Maciej\\
+    \end{itemize}
     \begin{columns}
         \column{0.5\textwidth}
-        \begin{itemize}
-            \item Ideal vs. gran
-            \item Compare to Maciej:\\ \url{https://indico.cern.ch/event/703569/contributions/2886293/attachments/1597688/2531598/2018.02.08-Slupecki-ToyFlow.pdf}
-        \end{itemize}
+        \begin{figure}[htbp]
+            \includegraphics[width=0.8\textwidth]{FIT-vn-single.pdf}
+        \end{figure}
         \column{0.5\textwidth}
         \begin{figure}[htbp]
-            \includegraphics[width=0.5\textwidth]{FIT-vn-single.pdf}
+            \includegraphics[width=0.8\textwidth]{FIT-maciej-results.png}
+            {\tiny \url{https://indico.cern.ch/event/703569/contributions/2886293/attachments/1597688/2531598/2018.02.08-Slupecki-ToyFlow.pdf}}
         \end{figure}
     \end{columns}
 }
@@ -317,14 +320,11 @@
             \item TODO:
             \begin{itemize}
                 \item Subevent handling
-                \begin{itemize}
-                    \item In FIT?
-                \end{itemize}
-                \item Realistic geometry.
+                \item Realistic geometry
             \end{itemize}
             \item In the future:
             \begin{itemize}
-                \item Realistic simulation of FIT.
+                \item Realistic simulation of FIT
             \end{itemize}
         \end{itemize}
     \end{columns}
