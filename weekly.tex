@@ -54,6 +54,18 @@
 }
 
 \frame {
+    \frametitle{Toy Monte Carlo}
+    \begin{columns}
+        \column{1.0\textwidth}
+        \begin{itemize}
+            \item Toy MC to study the resolution parameter and flow coefficients
+            \item Uses measured data for $v_{\text{n}}$ and $\eta$-distribution from \href{https://arxiv.org/abs/1804.02944}{arXiv:1804.02944} and \href{https://arxiv.org/abs/1509.07299}{arXiv:1509.07299} respectively
+            \item Code available at \url{https://github.com/hrytkone/ToyFlow}
+        \end{itemize}
+    \end{columns}
+}
+
+\frame {
     \frametitle{Introductions}
     \begin{columns}
         \column{.2\textwidth}
@@ -156,7 +168,7 @@
             \item Problem: $\Psi_\mathrm{RP}$ is unknown when using real data.
             \item Define the event flow vector $\mathbf{Q_n} \in \mathbb{C}$:
             \begin{equation} \small
-                \mathbf{Q}_n = \left|\mathbf{Q_n}\right| e^{in\Psi_n} = \sum_{i\in \mathrm{particles}} w_i e^{in\phi} 
+                \mathbf{Q}_n = \left|\mathbf{Q_n}\right| e^{in\Psi_n} = \sum_{i\in \mathrm{particles}} w_i e^{in\phi}
             \end{equation}
             where $w_i$ are the weights and optimally $w_i\approx v_n\left(\pt,y\right)\propto\pt$, with small \pt. Many times it is set $w_i=1$ for all $i$.
         \end{itemize}
@@ -196,18 +208,6 @@
             \includegraphics[width=0.95\textwidth]{toyFlow/reaction-plane-yms.png}
             \caption{From arXiv:0809.2949v2}
         \end{figure}
-    \end{columns}
-}
-
-\frame {
-    \frametitle{Toy Monte Carlo}
-    \begin{columns}
-        \column{1.0\textwidth}
-        \begin{itemize}
-            \item Toy MC to study the resolution parameter and flow coefficients
-            \item Uses measured data for $v_{\text{n}}$ and $\eta$-distribution from \href{https://arxiv.org/abs/1804.02944}{arXiv:1804.02944} and \href{https://arxiv.org/abs/1509.07299}{arXiv:1509.07299} respectively
-            \item Code available at \url{https://github.com/hrytkone/ToyFlow}
-        \end{itemize}
     \end{columns}
 }
 
